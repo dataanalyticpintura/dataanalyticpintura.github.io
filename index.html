@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="css/styles.css">
+
+  <title>PINTURA | Login & Admin</title>
+  <style>
+    :root{
+      --primary:#0ea5a4;
+      --primary-600:#0b8a89;
+      --danger:#e53935;
+      --blue:#1266d6;
+      --ink:#0f172a;
+      --bg:#f4f6f8;
+      --card:#ffffff;
+      --muted:#6b7280;
+      --shadow:0 10px 20px rgba(2,8,23,.08);
+      --radius:18px;
+    }.card {
+  background: var(--card);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  padding: 14px;
+
+  /* 🔹 Centramos contenido */
+  display: flex;
+  flex-direction: column;
+  align-items: center;   /* Centrado horizontal */
+  justify-content: center; /* Centrado vertical */
+  text-align: center;   /* Texto centrado */
+}
+
+    *{box-sizing:border-box}
+    body{
+      margin:0; font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji","Segoe UI Emoji";
+      color:#0b1220; background:var(--bg);
+    }
+    a{color:inherit}
+    /* ---------- Login ---------- */
+    .login-wrap{
+      position:relative;
+      min-height:100vh;
+      display:grid;
+      place-items:center;
+      overflow:hidden;
+      background:
+        radial-gradient(1200px 600px at 80% 10%, rgba(18,102,214,.16), transparent 60%),
+        radial-gradient(900px 500px at 10% 80%, rgba(14,165,164,.18), transparent 60%),
+        linear-gradient(180deg, #10142b, #1b2450);
+    }
+    .login-bg{
+      position:absolute; inset:0;
+      background:url('https://images.unsplash.com/photo-1523580846011-d3a5bc25702b?q=80&w=2060&auto=format&fit=crop') center/cover no-repeat;
+      filter:grayscale(20%) blur(2px) brightness(.65);
+      transform:scale(1.05);
+      opacity:.35;
+    }
+    .login-card{
+      position:relative;
+      width:min(92vw, 420px);
+      background:rgba(255,255,255,.95);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:28px 26px;
+      backdrop-filter: blur(6px);
+    }
+    .login-title{
+      text-align:center;
+      margin:6px 0 18px;
+    }
+    .login-title h1{
+      margin:0 0 4px; font-size:22px; letter-spacing:.6px;
+    }
+    .login-title small{color:var(--muted)}
+    .field{margin:12px 0}
+    .label{display:block; font-size:13px; color:#111827; margin:0 0 6px}
+    .input{
+      width:100%; padding:12px 14px; border:1px solid #e5e7eb; border-radius:12px;
+      outline:none; background:#fff; transition:.2s;
+      font-size:14px;
+    }
+    .input:focus{border-color:var(--primary); box-shadow:0 0 0 4px rgba(14,165,164,.15)}
+    .btn{
+      width:100%; padding:12px 14px; border:none; border-radius:12px; cursor:pointer;
+      background:var(--primary); color:white; font-weight:600; letter-spacing:.3px;
+      transition:.2s ease;
+    }
+    .btn:hover{background:var(--primary-600)}
+    .hint{font-size:12px; color:var(--muted); margin-top:8px}
+    .error{display:none; background: #ffe8e7; color:#7a1d1b; border:1px solid #ffc7c5; padding:10px 12px; border-radius:10px; font-size:13px; margin:12px 0}
+    /* ---------- Layout (Dashboard) ---------- */
+    .app{display:none; min-height:100vh; background:var(--bg)}
+    .topbar{
+      position:sticky; top:0; z-index:30;
+      display:flex; align-items:center; gap:16px; padding:12px 16px;
+      background:#0b1220; color:#e5e7eb;
+      box-shadow:0 2px 16px rgba(0,0,0,.15);
+    }
+    .brand{font-weight:800; letter-spacing:.5px}
+    .search{
+      margin-left:auto; display:flex; align-items:center; gap:8px;
+      background:#0f172a; border:1px solid rgba(255,255,255,.08);
+      padding:8px 12px; border-radius:12px; min-width:200px;
+    }
+    .search input{
+      border:none; outline:none; background:transparent; color:#e5e7eb; width:210px;
+    }
+    .user{
+      display:flex; align-items:center; gap:10px; margin-left:6px;
+    }
+    .avatar{width:32px; height:32px; border-radius:50%; background:#334155}
+    .wrap{
+      display:grid; grid-template-columns: 240px 1fr; gap:18px;
+      padding:18px; align-items:start;
+    }
+    .sidebar{
+      background:#101828; color:#cbd5e1; border-radius:16px; padding:12px;
+      position:sticky; top:64px; height:calc(100vh - 96px); overflow:auto;
+    }
+    .side-title{font-size:12px; letter-spacing:.1em; color:#94a3b8; padding:10px 12px}
+    .nav-btn{
+      display:flex; align-items:center; gap:10px; width:100%;
+      padding:10px 12px; border-radius:10px; cursor:pointer; border:none;
+      background:transparent; color:#e2e8f0; text-align:left;
+    }
+    .nav-btn.active, .nav-btn:hover{background:#0f172a}
+    .content{min-width:0}
+    .page-title{font-size:22px; margin:4px 0 14px}
+    .cards{display:grid; grid-template-columns: repeat(4, minmax(180px,1fr)); gap:16px}
+    .card{background:var(--card); border-radius:16px; box-shadow:var(--shadow); padding:16px}
+    .card .muted{color:var(--muted); font-size:12px}
+    .kpi{font-size:28px; font-weight:800; margin-top:6px}
+    .cta{display:flex; justify-content:flex-end; margin-top:10px}
+    .btn-secondary{
+      background:#0f172a; color:#e2e8f0; padding:10px 12px; border:none; border-radius:10px; cursor:pointer;
+    }
+    .panels{display:grid; grid-template-columns: 2fr 1fr; gap:16px; margin-top:16px}
+    .panel{background:var(--card); border-radius:16px; box-shadow:var(--shadow); padding:16px; min-height:220px}
+    .footer{padding:30px 18px; color:#94a3b8; font-size:12px}
+    @media (max-width: 1024px){
+      .wrap{grid-template-columns:1fr}
+      .sidebar{position:relative; height:auto}
+      .cards{grid-template-columns: repeat(2, minmax(160px,1fr))}
+      .panels{grid-template-columns:1fr}
+      .search input{width:120px}
+    }
+  </style>
+</head>
+<body>
+  <!-- LOGIN VIEW -->
+  <section id="login" class="login-wrap" aria-label="Inicio de sesión">
+    <div class="login-bg" aria-hidden="true"></div>
+    <form class="login-card" id="loginForm" autocomplete="on">
+      <div class="login-title">
+        <h1>[ CONCURSO DE PINTURA ]</h1>
+        <small>Proyecto</small>
+      </div>
+      <div id="loginError" class="error">Usuario o contraseña incorrectos.</div>
+      <div class="field">
+        <label class="label" for="user">Usuario</label>
+        <input class="input" id="user" name="user" type="text" placeholder="Ingrese su usuario" required />
+      </div>
+      <div class="field">
+        <label class="label" for="pass">Contraseña</label>
+        <input class="input" id="pass" name="pass" type="password" placeholder="Ingrese su contraseña" required />
+      </div>
+      <div class="field">
+        <button class="btn" type="submit">Ingresar</button>
+        
+      </div>
+    </form>
+  </section>
+
+  <!-- APP / DASHBOARD VIEW -->
+  <section id="app" class="app" aria-label="Panel de administración">
+    <header class="topbar">
+      <div class="brand">[PINTURA AL AIRE  LIBRE]</div>
+      <div class="search">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <input type="search" placeholder="Buscar"/>
+      </div>
+      <div class="user">
+        <button id="logout" class="btn-secondary" title="Cerrar sesión">Salir</button>
+        <div class="avatar" title="Usuario"></div>
+      </div>
+    </header>
+
+    <div class="wrap">
+      <aside class="sidebar">
+        <div class="side-title">NAVEGACIÓN</div>
+        <button class="nav-btn active">Inicio</button>
+        <button class="nav-btn"> Mantenimiento</button>
+        <button class="nav-btn">Dashboard</button>
+      </aside>
+
+      <main class="content">
+        <h2 class="page-title">concurso de pintura</h2>
+
+        <section class="cards">
+          <div class="card">
+            <div class="muted">PARTICIPANTES MUJERES</div>
+            <div class="kpi" style="color:var(--danger)">242</div>
+          </div>
+          <div class="card" style="background:#fef2f2">
+            <div class="muted">PARTICIPANTES HOMBRES</div>
+            <div class="kpi">769</div>
+          </div>
+          <div class="card" style="background:#ebf2ff">
+            <div class="muted">FECHA DE CORTE</div>
+            <div class="kpi" style="color:var(--blue)">26/10/2024</div>
+          </div>
+          <div class="card" style="background:#0f172a; color:#e2e8f0">
+            <div class="muted">PARTICIPANTES</div>
+            <div class="kpi">1012</div>
+            <small class="muted">2024</small>
+          </div>
+        </section>
+
+        <section class="panels">
+          <div class="panel">
+            <h3>CONCURSO DE PINTURA 2024</h3>
+            
+            <img src="https://scontent-lim1-1.xx.fbcdn.net/v/t1.6435-9/205929478_4053058811479180_4699058093825895247_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeHXLXo11kP_QLWlxOWERYrbUNry0LuLa19Q2vLQu4trX0z2BnSqEQMAboN6rPmPyiLpfLGMb3JYhmnDdYj3REvz&_nc_ohc=_ZaLNzFMqi8Q7kNvwFOmOC1&_nc_oc=AdlqO5TYtU1McKN2rNYeR_IlJz5PTAA36ryWF_51ZzjdWnfqSj_NJd0_KI_davld0IE&_nc_zt=23&_nc_ht=scontent-lim1-1.xx&_nc_gid=2-I6P24wCAfqlgWt79J9JA&oh=00_AfW4Oo9G_GLwacXwoGPNpbFoFIbvYW3d_1OYax8bJugxig&oe=68C9D457" 
+               alt="Concurso de pintura" 
+               style="margin-top:10px;max-width:100%;border-radius:12px;"/>
+
+            <div id="chart" style="margin-top:10px;height:10px;border-radius:12px;background:repeating-linear-gradient(90deg,#eef2f7 0 12px,#fff 12px 24px)"></div>
+            
+
+               
+          </div>
+          <div class="panel">
+            <h3>Análisis Estadístico</h3>
+            <ul style="color:#475569; line-height:1.8">
+
+             <img src="https://scontent-lim1-1.xx.fbcdn.net/v/t1.6435-9/207681150_4053057921479269_5674811406271683426_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeHmHP2nWTS40ZI8st_33Rw5uM4iLJle7tW4ziIsmV7u1cEMV75VTLyjVhljSzd2QHRTSL67LpkwP7uu5y_XJJ0u&_nc_ohc=TsSawzAuQI8Q7kNvwGfhUmF&_nc_oc=AdklxS581GqfWxLBgEKQQHsyl-EuJ3LgQi1vW5wpFJK7MOjJaDMH69YMZL7IpXkezqU&_nc_zt=23&_nc_ht=scontent-lim1-1.xx&_nc_gid=BaqgYVu7z7eCfFkXeuP4tQ&oh=00_AfUioukUlQJSR8GhnZWE3_5JXylXE2IxoE9VCh_dLPzySA&oe=68C9D402" 
+               alt="Concurso de pintura" 
+               style="margin-top:10px;max-width:100%;border-radius:12px;"/>
+
+            <div class="cta">
+              <div class="muted">Concurso de Pintura</div>
+              
+              <button class="btn-secondary" onclick="window.location.href='https://lookerstudio.google.com/reporting/984d3d51-1355-47d3-a8b7-753f29c84303'">DASHBOARD</button>
+            </div>
+            <img src="https://scontent-lim1-1.xx.fbcdn.net/v/t1.6435-9/118697012_3214364235348646_7500074135312335227_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeEtNGamH0cHvl0mUAKjAcagM19cqZKzkmczX1ypkrOSZ2yMswIoRWm-zvP3ki-y__pa_xYpjD_52_YnA4k2DPki&_nc_ohc=11YLNgxcwkgQ7kNvwHyt5p2&_nc_oc=AdlgZMiY5DsTsZCHc9piDUSC3id9VH2QH6E-MJMy0ZCnAJ2zvmtmCoT3a04_LroJu8U&_nc_zt=23&_nc_ht=scontent-lim1-1.xx&_nc_gid=nTOob3ronUvXmcXfDwi27A&oh=00_AfWRq079XMZdW4SLQCxjVwylCXQtoEPIgRWnYvY06JKKeg&oe=68C9CD8C" 
+               alt="Concurso de pintura" 
+               style="margin-top:10px;max-width:100%;border-radius:12px;"/>
+            <div class="cta">
+              <div class="muted">Pintura al Aire LAibre y el Turismo  </div>
+              <button class="btn-secondary" onclick="window.location.href='https://lookerstudio.google.com/reporting/2974f33e-31d4-459f-ae81-07f2469b285e'">DASHBOARD</button>
+            </div>
+            <img src="https://estudiantes.ucontinental.edu.pe/wp-content/uploads/2019/11/estudiantes-concientizan-sobre-cuidado-ambiental-con-mural-en-ocopilla-3.jpg" 
+               alt="Concurso de pintura" 
+               style="margin-top:10px;max-width:100%;border-radius:12px;"/>
+            <div class="cta">
+              <div class="muted">Pintura al Aire Libre y la Concientización Ambietal   </div>
+              <button class="btn-secondary" onclick="window.location.href='https://lookerstudio.google.com/reporting/ef9fefd4-a660-4200-8cd4-0738da611f37'">DASHBOARD</button>
+            </div>
+          </div>
+        </section>
+
+        <footer class="footer">
+          Copyright © 2017–2025. Bracket. All Rights Reserved. Hecho con atención por ThemePixels (UI de referencia).
+        </footer>
+      </main>
+    </div>
+  </section>
+
+  <script>
+    // Simple demo auth (front-end only). Replace with real backend in producción.
+    const loginForm = document.getElementById('loginForm');
+    const loginView = document.getElementById('login');
+    const appView = document.getElementById('app');
+    const err = document.getElementById('loginError');
+    const logoutBtn = document.getElementById('logout');
+
+    // Credenciales de ejemplo
+    const DEMO_USER = 'admin';
+    const DEMO_PASS = '123456';
+
+    function showApp(username){
+      // Guardar estado de sesión en memoria simple
+      sessionStorage.setItem('pintura_user', username);
+      loginView.style.display = 'none';
+      appView.style.display = 'block';
+    }
+    function showLogin(){
+      sessionStorage.removeItem('pintura_user');
+      appView.style.display = 'none';
+      loginView.style.display = 'grid';
+      // limpiar campos
+      loginForm.reset();
+      document.getElementById('user').focus();
+    }
+
+    // Mantener sesión si ya se autenticó
+    const saved = sessionStorage.getItem('pintura_user');
+    if(saved){ showApp(saved); }
+
+    loginForm.addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const u = (document.getElementById('user').value || '').trim();
+      const p = document.getElementById('pass').value;
+      const valid = (u === DEMO_USER && p === DEMO_PASS);
+      if(valid){
+        err.style.display = 'none';
+        showApp(u);
+      }else{
+        err.style.display = 'block';
+      }
+    });
+
+    logoutBtn.addEventListener('click', showLogin);
+  </script>
+</body>
+</html>
+
