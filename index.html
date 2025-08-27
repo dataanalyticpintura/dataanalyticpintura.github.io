@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8" />
   <link rel="stylesheet" href="css/styles.css">
-
   <title>PINTURA | Login & Admin</title>
   <style>
     :root{
@@ -17,19 +16,18 @@
       --muted:#6b7280;
       --shadow:0 10px 20px rgba(2,8,23,.08);
       --radius:18px;
-    }.card {
-  background: var(--card);
-  border-radius: 14px;
-  box-shadow: var(--shadow);
-  padding: 14px;
-
-  /* 🔹 Centramos contenido */
-  display: flex;
-  flex-direction: column;
-  align-items: center;   /* Centrado horizontal */
-  justify-content: center; /* Centrado vertical */
-  text-align: center;   /* Texto centrado */
-}
+    }
+    .card {
+      background: var(--card);
+      border-radius: 14px;
+      box-shadow: var(--shadow);
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
 
     *{box-sizing:border-box}
     body{
@@ -37,6 +35,7 @@
       color:#0b1220; background:var(--bg);
     }
     a{color:inherit}
+
     /* ---------- Login ---------- */
     .login-wrap{
       position:relative;
@@ -56,15 +55,56 @@
       transform:scale(1.05);
       opacity:.35;
     }
-    .login-card{
-      position:relative;
-      width:min(92vw, 420px);
-      background:rgba(255,255,255,.95);
-      border-radius:var(--radius);
-      box-shadow:var(--shadow);
-      padding:28px 26px;
-      backdrop-filter: blur(6px);
-    }
+
+    /* NUEVO: contenedor para logos + tarjeta */
+   .login-container{
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:100%;
+  max-width:1200px;
+  z-index:1;
+}
+
+/* Logo izquierdo */
+.login-logo.left{
+  position:absolute;
+  left:20px;
+  top:50%;
+  transform:translateY(-50%);
+  width:250px;
+  height:250px;
+  object-fit:contain;
+  background:transparent;
+  border-radius:16px;
+}
+
+/* Logo derecho */
+.login-logo.right{
+  position:absolute;
+  right:20px;
+  top:50%;
+  transform:translateY(-50%);
+  width:250px;
+  height:250px;
+  object-fit:contain;
+  background:transparent;
+  border-radius:16px;
+}
+
+/* Mantiene login centrado y tamaño normal */
+.login-card{
+  position:relative;
+  width:min(92vw, 420px);
+  background:rgba(255,255,255,.95);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:28px 26px;
+  backdrop-filter: blur(6px);
+  z-index:2;
+}
+
     .login-title{
       text-align:center;
       margin:6px 0 18px;
@@ -89,6 +129,7 @@
     .btn:hover{background:var(--primary-600)}
     .hint{font-size:12px; color:var(--muted); margin-top:8px}
     .error{display:none; background: #ffe8e7; color:#7a1d1b; border:1px solid #ffc7c5; padding:10px 12px; border-radius:10px; font-size:13px; margin:12px 0}
+
     /* ---------- Layout (Dashboard) ---------- */
     .app{display:none; min-height:100vh; background:var(--bg)}
     .topbar{
@@ -138,6 +179,8 @@
     .panels{display:grid; grid-template-columns: 2fr 1fr; gap:16px; margin-top:16px}
     .panel{background:var(--card); border-radius:16px; box-shadow:var(--shadow); padding:16px; min-height:220px}
     .footer{padding:30px 18px; color:#94a3b8; font-size:12px}
+
+    /* Responsivo */
     @media (max-width: 1024px){
       .wrap{grid-template-columns:1fr}
       .sidebar{position:relative; height:auto}
@@ -145,16 +188,36 @@
       .panels{grid-template-columns:1fr}
       .search input{width:120px}
     }
+    @media (max-width: 640px){
+      .login-container{
+        flex-direction:column;
+        width:min(96vw, 460px);
+      }
+      .login-logo{
+        width:76px; height:76px;
+      }
+    }
   </style>
 </head>
 <body>
   <!-- LOGIN VIEW -->
   <section id="login" class="login-wrap" aria-label="Inicio de sesión">
-    <div class="login-bg" aria-hidden="true"></div>
+  <div class="login-bg" aria-hidden="true"></div>
+
+  <!-- Contenedor con logos a los costados -->
+  <div class="login-container">
+    <!-- Logo Izquierdo -->
+    <img
+      class="login-logo left"
+      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwW4Zz-NRL-5ScV-83rahrDe9pa5Qs5b7png&s"
+      alt="Logo izquierdo"
+    />
+
+    <!-- Formulario -->
     <form class="login-card" id="loginForm" autocomplete="on">
       <div class="login-title">
-        <h1>[ CONCURSO DE PINTURA ]</h1>
-        <small>Proyecto</small>
+        <h1>XI CONCURSO INTERNACIONAL DE PINTURA</h1>
+        <small>Mario Urtega Alvarado</small>
       </div>
       <div id="loginError" class="error">Usuario o contraseña incorrectos.</div>
       <div class="field">
@@ -167,10 +230,18 @@
       </div>
       <div class="field">
         <button class="btn" type="submit">Ingresar</button>
-        
       </div>
     </form>
-  </section>
+
+    <!-- Logo Derecho -->
+    <img
+      class="login-logo right"
+      src="https://tse3.mm.bing.net/th/id/OIP.eVrb3lIzr4f6w_rZxvkTcAHaHa?r=0&cb=thfvnext&rs=1&pid=ImgDetMain&o=7&rm=3"
+      alt="Logo derecho"
+    />
+  </div>
+</section>
+
 
   <!-- APP / DASHBOARD VIEW -->
   <section id="app" class="app" aria-label="Panel de administración">
@@ -200,19 +271,20 @@
         <section class="cards">
           <div class="card">
             <div class="muted">PARTICIPANTES MUJERES</div>
-            <div class="kpi" style="color:var(--danger)">242</div>
+            <div class="kpi" style="color:var(--danger)">190</div>
           </div>
           <div class="card" style="background:#fef2f2">
             <div class="muted">PARTICIPANTES HOMBRES</div>
-            <div class="kpi">769</div>
+            <div class="kpi">485</div>
           </div>
           <div class="card" style="background:#ebf2ff">
-            <div class="muted">FECHA DE CORTE</div>
-            <div class="kpi" style="color:var(--blue)">26/10/2024</div>
+            <div class="muted">INSCRITOS</div>
+            <div class="kpi" style="color:var(--blue)">1012</div>
+            <small class="muted">2024</small>
           </div>
           <div class="card" style="background:#0f172a; color:#e2e8f0">
             <div class="muted">PARTICIPANTES</div>
-            <div class="kpi">1012</div>
+            <div class="kpi">675</div>
             <small class="muted">2024</small>
           </div>
         </section>
@@ -220,43 +292,36 @@
         <section class="panels">
           <div class="panel">
             <h3>CONCURSO DE PINTURA 2024</h3>
-            
-            <img src="https://scontent-lim1-1.xx.fbcdn.net/v/t1.6435-9/205929478_4053058811479180_4699058093825895247_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeHXLXo11kP_QLWlxOWERYrbUNry0LuLa19Q2vLQu4trX0z2BnSqEQMAboN6rPmPyiLpfLGMb3JYhmnDdYj3REvz&_nc_ohc=_ZaLNzFMqi8Q7kNvwFOmOC1&_nc_oc=AdlqO5TYtU1McKN2rNYeR_IlJz5PTAA36ryWF_51ZzjdWnfqSj_NJd0_KI_davld0IE&_nc_zt=23&_nc_ht=scontent-lim1-1.xx&_nc_gid=2-I6P24wCAfqlgWt79J9JA&oh=00_AfW4Oo9G_GLwacXwoGPNpbFoFIbvYW3d_1OYax8bJugxig&oe=68C9D457" 
-               alt="Concurso de pintura" 
-               style="margin-top:10px;max-width:100%;border-radius:12px;"/>
-
+            <img src="https://scontent-lim1-1.xx.fbcdn.net/v/t1.6435-9/205929478_4053058811479180_4699058093825895247_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeHXLXo11kP_QLWlxOWERYrbUNry0LuLa19Q2vLQu4trX0z2BnSqEQMAboN6rPmPyiLpfLGMb3JYhmnDdYj3REvz&_nc_ohc=_ZaLNzFMqi8Q7kNvwFOmOC1&_nc_oc=AdlqO5TYtU1McKN2rNYeR_IlJz5PTAA36ryWF_51ZzjdWnfqSj_NJd0_KI_davld0IE&_nc_zt=23&_nc_ht=scontent-lim1-1.xx&_nc_gid=2-I6P24wCAfqlgWt79J9JA&oh=00_AfW4Oo9G_GLwacXwoGPNpbFoFIbvYW3d_1OYax8bJugxig&oe=68C9D457"
+                 alt="Concurso de pintura"
+                 style="margin-top:10px;max-width:100%;border-radius:12px;"/>
             <div id="chart" style="margin-top:10px;height:10px;border-radius:12px;background:repeating-linear-gradient(90deg,#eef2f7 0 12px,#fff 12px 24px)"></div>
-            
-
-               
           </div>
           <div class="panel">
             <h3>Análisis Estadístico</h3>
             <ul style="color:#475569; line-height:1.8">
-
-             <img src="https://scontent-lim1-1.xx.fbcdn.net/v/t1.6435-9/207681150_4053057921479269_5674811406271683426_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeHmHP2nWTS40ZI8st_33Rw5uM4iLJle7tW4ziIsmV7u1cEMV75VTLyjVhljSzd2QHRTSL67LpkwP7uu5y_XJJ0u&_nc_ohc=TsSawzAuQI8Q7kNvwGfhUmF&_nc_oc=AdklxS581GqfWxLBgEKQQHsyl-EuJ3LgQi1vW5wpFJK7MOjJaDMH69YMZL7IpXkezqU&_nc_zt=23&_nc_ht=scontent-lim1-1.xx&_nc_gid=BaqgYVu7z7eCfFkXeuP4tQ&oh=00_AfUioukUlQJSR8GhnZWE3_5JXylXE2IxoE9VCh_dLPzySA&oe=68C9D402" 
-               alt="Concurso de pintura" 
-               style="margin-top:10px;max-width:100%;border-radius:12px;"/>
-
-            <div class="cta">
-              <div class="muted">Concurso de Pintura</div>
-              
-              <button class="btn-secondary" onclick="window.location.href='https://lookerstudio.google.com/reporting/984d3d51-1355-47d3-a8b7-753f29c84303'">DASHBOARD</button>
-            </div>
-            <img src="https://scontent-lim1-1.xx.fbcdn.net/v/t1.6435-9/118697012_3214364235348646_7500074135312335227_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeEtNGamH0cHvl0mUAKjAcagM19cqZKzkmczX1ypkrOSZ2yMswIoRWm-zvP3ki-y__pa_xYpjD_52_YnA4k2DPki&_nc_ohc=11YLNgxcwkgQ7kNvwHyt5p2&_nc_oc=AdlgZMiY5DsTsZCHc9piDUSC3id9VH2QH6E-MJMy0ZCnAJ2zvmtmCoT3a04_LroJu8U&_nc_zt=23&_nc_ht=scontent-lim1-1.xx&_nc_gid=nTOob3ronUvXmcXfDwi27A&oh=00_AfWRq079XMZdW4SLQCxjVwylCXQtoEPIgRWnYvY06JKKeg&oe=68C9CD8C" 
-               alt="Concurso de pintura" 
-               style="margin-top:10px;max-width:100%;border-radius:12px;"/>
-            <div class="cta">
-              <div class="muted">Pintura al Aire LAibre y el Turismo  </div>
-              <button class="btn-secondary" onclick="window.location.href='https://lookerstudio.google.com/reporting/2974f33e-31d4-459f-ae81-07f2469b285e'">DASHBOARD</button>
-            </div>
-            <img src="https://estudiantes.ucontinental.edu.pe/wp-content/uploads/2019/11/estudiantes-concientizan-sobre-cuidado-ambiental-con-mural-en-ocopilla-3.jpg" 
-               alt="Concurso de pintura" 
-               style="margin-top:10px;max-width:100%;border-radius:12px;"/>
-            <div class="cta">
-              <div class="muted">Pintura al Aire Libre y la Concientización Ambietal   </div>
-              <button class="btn-secondary" onclick="window.location.href='https://lookerstudio.google.com/reporting/ef9fefd4-a660-4200-8cd4-0738da611f37'">DASHBOARD</button>
-            </div>
+              <img src="https://scontent-lim1-1.xx.fbcdn.net/v/t1.6435-9/207681150_4053057921479269_5674811406271683426_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeHmHP2nWTS40ZI8st_33Rw5uM4iLJle7tW4ziIsmV7u1cEMV75VTLyjVhljSzd2QHRTSL67LpkwP7uu5y_XJJ0u&_nc_ohc=TsSawzAuQI8Q7kNvwGfhUmF&_nc_oc=AdklxS581GqfWxLBgEKQQHsyl-EuJ3LgQi1vW5wpFJK7MOjJaDMH69YMZL7IpXkezqU&_nc_zt=23&_nc_ht=scontent-lim1-1.xx&_nc_gid=BaqgYVu7z7eCfFkXeuP4tQ&oh=00_AfUioukUlQJSR8GhnZWE3_5JXylXE2IxoE9VCh_dLPzySA&oe=68C9D402"
+                   alt="Concurso de pintura"
+                   style="margin-top:10px;max-width:100%;border-radius:12px;"/>
+              <div class="cta">
+                <div class="muted">Concurso de Pintura</div>
+                <button class="btn-secondary" onclick="window.location.href='https://lookerstudio.google.com/reporting/984d3d51-1355-47d3-a8b7-753f29c84303'">DASHBOARD</button>
+              </div>
+              <img src="https://scontent-lim1-1.xx.fbcdn.net/v/t1.6435-9/118697012_3214364235348646_7500074135312335227_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeEtNGamH0cHvl0mUAKjAcagM19cqZKzkmczX1ypkrOSZ2yMswIoRWm-zvP3ki-y__pa_xYpjD_52_YnA4k2DPki&_nc_ohc=11YLNgxcwkgQ7kNvwHyt5p2&_nc_oc=AdlgZMiY5DsTsZCHc9piDUSC3id9VH2QH6E-MJMy0ZCnAJ2zvmtmCoT3a04_LroJu8U&_nc_zt=23&_nc_ht=scontent-lim1-1.xx&_nc_gid=nTOob3ronUvXmcXfDwi27A&oh=00_AfWRq079XMZdW4SLQCxjVwylCXQtoEPIgRWnYvY06JKKeg&oe=68C9CD8C"
+                   alt="Concurso de pintura"
+                   style="margin-top:10px;max-width:100%;border-radius:12px;"/>
+              <div class="cta">
+                <div class="muted">Pintura al Aire Libre y la promoción el Turismo</div>
+                <button class="btn-secondary" onclick="window.location.href='https://lookerstudio.google.com/reporting/2974f33e-31d4-459f-ae81-07f2469b285e'">DASHBOARD</button>
+              </div>
+              <img src="https://estudiantes.ucontinental.edu.pe/wp-content/uploads/2019/11/estudiantes-concientizan-sobre-cuidado-ambiental-con-mural-en-ocopilla-3.jpg"
+                   alt="Concurso de pintura"
+                   style="margin-top:10px;max-width:100%;border-radius:12px;"/>
+              <div class="cta">
+                <div class="muted">Pintura al Aire Libre y la Concientización Ambietal</div>
+                <button class="btn-secondary" onclick="window.location.href='https://lookerstudio.google.com/reporting/ef9fefd4-a660-4200-8cd4-0738da611f37'">DASHBOARD</button>
+              </div>
+            </ul>
           </div>
         </section>
 
@@ -268,7 +333,7 @@
   </section>
 
   <script>
-    // Simple demo auth (front-end only). Replace with real backend in producción.
+    // Simple demo auth (front-end only). Replace with real backend en producción.
     const loginForm = document.getElementById('loginForm');
     const loginView = document.getElementById('login');
     const appView = document.getElementById('app');
@@ -280,7 +345,6 @@
     const DEMO_PASS = '123456';
 
     function showApp(username){
-      // Guardar estado de sesión en memoria simple
       sessionStorage.setItem('pintura_user', username);
       loginView.style.display = 'none';
       appView.style.display = 'block';
@@ -289,12 +353,10 @@
       sessionStorage.removeItem('pintura_user');
       appView.style.display = 'none';
       loginView.style.display = 'grid';
-      // limpiar campos
       loginForm.reset();
       document.getElementById('user').focus();
     }
 
-    // Mantener sesión si ya se autenticó
     const saved = sessionStorage.getItem('pintura_user');
     if(saved){ showApp(saved); }
 
